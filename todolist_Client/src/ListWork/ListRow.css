@@ -1,0 +1,11 @@
+.work-row{
+    text-align: left;
+}
+
+.work-row>button{
+    right: 10px;
+    float: right;
+    height: 25px;
+    padding: 0 6px;
+    position: relative;
+}
