@@ -1,0 +1,32 @@
+[
+  {
+    "_id": { "$oid": "5f01672e633f586cba5161de" },
+    "isdone": true,
+    "description": "Tưới cây"
+  },
+  {
+    "_id": { "$oid": "5f016732633f586cba5161df" },
+    "isdone": false,
+    "description": "Trồng rau"
+  },
+  {
+    "_id": { "$oid": "5f016737633f586cba5161e0" },
+    "isdone": true,
+    "description": "Mua bánh mướt"
+  },
+  {
+    "_id": { "$oid": "5f016752633f586cba5161e2" },
+    "isdone": false,
+    "description": "Làm bài tập về nhà"
+  },
+  {
+    "_id": { "$oid": "5f01687c633f586cba5161e3" },
+    "isdone": true,
+    "description": "Bánh tráng nướng cho mọi nhà"
+  },
+  {
+    "_id": { "$oid": "5f016a23633f586cba5161e4" },
+    "isdone": false,
+    "description": "Ăn sáng"
+  }
+]
