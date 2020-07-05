@@ -14,25 +14,37 @@ class App extends Component {
     this.GetData();
   }
 
-  GetData(){
-    fetch('http://localhost:8081/get-works')
-    .then(result => result.json())
-    .then((res) => {
-      console.log(res.data);
+  CheckDone = (id, isdone) => {
+    fetch(`http://localhost:8081/update-work?id=${id}&isdone=${isdone}`, {
+      method: 'PUT'
+    }).then((res) => {
+      this.GetData();
     })
   }
 
-  DeleteWork = (id) => {
-    var new_list = this.state.list;
-    for(var i = 0;i<new_list.length;i++){
-      if(new_list[i].id === id){
-        new_list.splice(i,1);
-        break;
-      }
-    }
+  GetData() {
+    fetch('http://localhost:8081/get-works')
+      .then(result => result.json())
+      .then((res) => {
+        this.setState({
+          list: res.data
+        })
+      })
+  }
 
-    this.setState({
-      list: new_list
+  DeleteWork = (id) => {
+    //alert(id);
+    fetch('http://localhost:8081/delete-work', {
+      method: 'DELETE',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        _id: id
+      })
+    }).then(res => {
+      this.GetData();
     })
   }
 
@@ -41,22 +53,28 @@ class App extends Component {
   };
 
   AddWorkEvent = (event) => {
-    event.preventDefault();
+    var this_App = this;
     if (this.state.description !== "") {
-      var row = {
-        id: this.countWork,
-        data: this.state.description
-      }
-      this.setState({
-        description: "",
-        list: [...this.state.list, row],
+      fetch('http://localhost:8081/add-work', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          isdone: false,
+          description: this.state.description
+        })
+      }).then(function (response) {
+        this_App.GetData();
       });
 
-      this.countWork += 1;
       document.getElementById("add-work-form").reset();
     } else {
       alert("none description input");
     }
+
+    event.preventDefault();
   };
 
   render() {
@@ -89,10 +107,12 @@ class App extends Component {
             this.state.list.map((value, index) => {
               return (
                 <ListRow
-                  des={value.data}
-                  id={value.id}
-                  key={value.id}
+                  isdone={value.isdone}
+                  des={value.description}
+                  id={value._id}
+                  key={value._id}
                   deleteWork={this.DeleteWork}
+                  checkDone={this.CheckDone}
                 ></ListRow>
               )
             })
