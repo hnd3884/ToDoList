@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import "./App.css";
-import ListRow from "./ListWork/ListRow";
+import ListRow from "./ListRow/ListRow";
+import { GetWorks, CheckDone, DeleteWork, GetWorkById, ChangeDescription } from './Api/todoApi'
 
 class App extends Component {
-  countWork = 0;
-
   constructor(props) {
     super(props);
     this.state = {
@@ -16,47 +15,30 @@ class App extends Component {
   }
 
   CheckDone = (id, isdone) => {
-    fetch(`http://localhost:8081/check-work?id=${id}&isdone=${isdone}`, {
-      method: 'PUT'
-    }).then((res) => {
+    CheckDone(id, isdone).then((res) => {
       this.GetData();
-    })
+    });
   }
 
   GetData() {
-    fetch('http://localhost:8081/get-works')
-      .then(result => result.json())
-      .then((res) => {
-        this.setState({
-          list: res.data
-        })
+    GetWorks().then((res) => {
+      this.setState({
+        list: res.data
       })
+    });
   }
 
   DeleteWork = (id) => {
-    //alert(id);
-    fetch('http://localhost:8081/delete-work', {
-      method: 'DELETE',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        _id: id
-      })
-    }).then(res => {
+    DeleteWork(id).then(res => {
       this.GetData();
     })
   }
 
   EditWork = (id) => {
-    //alert(id);
     document.getElementById('change-work-desciption-field').style.display = 'block';
-    fetch('http://localhost:8081/get-work?id=' + id)
-      .then(result => result.json())
-      .then((res) => {
-        document.getElementById('changeDescriptionInput').value = res.description;
-      })
+    GetWorkById(id).then((res) => {
+      document.getElementById('changeDescriptionInput').value = res.description;
+    })
 
     this.setState({
       editWorkId: id
@@ -64,12 +46,8 @@ class App extends Component {
   }
 
   UpdateWork(event) {
-    // console.log(this.state.editWorkId);
-    // console.log(document.getElementById('changeDescriptionInput').value);
     let newDescription = document.getElementById('changeDescriptionInput').value;
-    fetch(`http://localhost:8081/update-work?id=${this.state.editWorkId}&newDescription=${newDescription}`, {
-      method: 'PUT'
-    }).then((res) => {
+    ChangeDescription(this.state.editWorkId,newDescription).then((res) => {
       this.GetData();
       document.getElementById('changeDescriptionInput').value = "";
       this.setState({
@@ -142,6 +120,9 @@ class App extends Component {
             </form>
           </div>
         </div>
+        {/* End form add new work */}
+
+        {/* List work field */}
         <div className="list-work-field">
           <span>TODO LIST</span>
           <hr></hr>
@@ -161,7 +142,11 @@ class App extends Component {
             })
           }</div>
         </div>
+        {/* End list work field */}
+
         <br></br>
+
+        {/* form edit work */}
         <div id="change-work-desciption-field" style={{ display: 'none' }}>
           <span>EDIT</span>
           <form id="change-work-desciption-form">
@@ -174,6 +159,7 @@ class App extends Component {
             </button>
           </form>
         </div>
+        {/* End form edit work */}
       </div>
     );
   }
