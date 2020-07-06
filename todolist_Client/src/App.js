@@ -95,6 +95,7 @@ class App extends Component {
                 className="btn btn-primary"
                 onClick={this.AddWorkEvent}
               >
+                <i className="fa fa-plus-square-o" aria-hidden="true"></i>&nbsp;
                 Add
               </button>
             </form>

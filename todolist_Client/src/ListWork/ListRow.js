@@ -11,7 +11,7 @@ class ListRow extends Component {
         }
     }
 
-    componentWillReceiveProps(newProps) {
+    UNSAFE_componentWillReceiveProps(newProps) {
         if (this.state.isdone !== newProps.isdone) {
             this.setState({ isdone: newProps.isdone });
         }
@@ -31,7 +31,9 @@ class ListRow extends Component {
                 &nbsp;&nbsp;
                 <input type="checkbox" checked={this.state.isdone} onChange={this.CheckDoneButton.bind(this, this.state.id)}></input>
                 &nbsp; {this.state.des}
-                <button type="button" className="btn btn-danger" onClick={this.SendDeleteMessage.bind(this, this.state.id)}>Delete</button>
+                <button type="button" className="btn btn-danger" onClick={this.SendDeleteMessage.bind(this, this.state.id)}>
+                    <i className="fa fa-trash" aria-hidden="true"></i>
+                </button>
                 <hr></hr>
             </div>
         );
