@@ -15,14 +15,21 @@ class ListRow extends Component {
         if (this.state.isdone !== newProps.isdone) {
             this.setState({ isdone: newProps.isdone });
         }
+        if (this.state.des !== newProps.des) {
+            this.setState({ des: newProps.des });
+        }
     }
 
     CheckDoneButton(id) {
         this.props.checkDone(id, this.state.isdone ? false : true);
     }
 
-    SendDeleteMessage(id) {
+    DeleteWork(id) {
         this.props.deleteWork(id);
+    }
+
+    EditWork(id){
+        this.props.editWork(id);
     }
 
     render() {
@@ -31,7 +38,12 @@ class ListRow extends Component {
                 &nbsp;&nbsp;
                 <input type="checkbox" checked={this.state.isdone} onChange={this.CheckDoneButton.bind(this, this.state.id)}></input>
                 &nbsp; {this.state.des}
-                <button type="button" className="btn btn-danger" onClick={this.SendDeleteMessage.bind(this, this.state.id)}>
+                <button type="button" className="btn btn-primary" onClick={this.EditWork.bind(this, this.state.id)}>
+                    <i className="fa fa-pencil" aria-hidden="true"></i>
+                </button>
+                &nbsp;
+                &nbsp;
+                <button type="button" className="btn btn-danger" onClick={this.DeleteWork.bind(this, this.state.id)}>
                     <i className="fa fa-trash" aria-hidden="true"></i>
                 </button>
                 <hr></hr>

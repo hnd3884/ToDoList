@@ -27,6 +27,20 @@ async function GetData() {
     }
 }
 
+// Get Deatail of work
+async function GetWorkById(id) {
+    try {
+        let client = await MongoClient.connect(uri, { useUnifiedTopology: true });
+        let collections = await client.db('ToDoListDB').collection('Works');
+        let item = await collections.findOne({_id: new ObjectID(id)});
+
+        client.close();
+        return item;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 // Add new work
 async function AddData(employee) {
     try {
@@ -87,6 +101,27 @@ async function CheckDone(id, isdone){
     }
 }
 
+// Change desciption of work by id
+async function UpdateWork(id, newDescription){
+    try {
+        let client = await MongoClient.connect(uri, { useUnifiedTopology: true });
+        let collections = await client.db('ToDoListDB').collection('Works');
+        let myquery = {_id : new ObjectID(id)}
+        let newvalues = { $set: { description: newDescription } };
+        await collections.updateOne(myquery, newvalues ,function (err, result) {
+            if (err) {
+                console.log("delete failed");
+                client.close();
+                throw err;
+            }
+            console.log("1 document deleted");
+            client.close();
+        })
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 // Get all works API
 app.get('/get-works', async (req, res) => {
     let items = await GetData();
@@ -97,12 +132,27 @@ app.get('/get-works', async (req, res) => {
     res.status(200).end();
 })
 
+// Get works by id API
+app.get('/get-work', async (req, res) => {
+    let id = req.query.id;
+    let item = await GetWorkById(id);
+    res.send(item);
+    res.status(200).end();
+})
+
 // Add Work API
 app.post('/add-work', async (req, res) => {
     //console.log(req.body);
     AddData(req.body);
     res.status(200).end();
 }) 
+
+app.put('/update-work', async(req,res)=>{
+    //.log(req.query);
+    UpdateWork(req.query.id, req.query.newDescription);
+    //console.log(req.query.id+" "+req.query.newDescrition)
+    res.status(200).end();
+})
 
 // Delete work API
 app.delete('/delete-work', async(req,res)=>{
@@ -112,7 +162,7 @@ app.delete('/delete-work', async(req,res)=>{
 })
 
 // Check done API
-app.put('/update-work', async(req,res)=>{
+app.put('/check-work', async(req,res)=>{
     //.log(req.query);
     CheckDone(req.query.id, req.query.isdone === "true" ? true : false);
     res.status(200).end();

@@ -10,12 +10,13 @@ class App extends Component {
     this.state = {
       description: "",
       list: [],
+      editWorkId: ""
     };
     this.GetData();
   }
 
   CheckDone = (id, isdone) => {
-    fetch(`http://localhost:8081/update-work?id=${id}&isdone=${isdone}`, {
+    fetch(`http://localhost:8081/check-work?id=${id}&isdone=${isdone}`, {
       method: 'PUT'
     }).then((res) => {
       this.GetData();
@@ -46,6 +47,46 @@ class App extends Component {
     }).then(res => {
       this.GetData();
     })
+  }
+
+  EditWork = (id) => {
+    //alert(id);
+    document.getElementById('change-work-desciption-field').style.display = 'block';
+    fetch('http://localhost:8081/get-work?id=' + id)
+      .then(result => result.json())
+      .then((res) => {
+        document.getElementById('changeDescriptionInput').value = res.description;
+      })
+
+    this.setState({
+      editWorkId: id
+    })
+  }
+
+  UpdateWork(event) {
+    // console.log(this.state.editWorkId);
+    // console.log(document.getElementById('changeDescriptionInput').value);
+    let newDescription = document.getElementById('changeDescriptionInput').value;
+    fetch(`http://localhost:8081/update-work?id=${this.state.editWorkId}&newDescription=${newDescription}`, {
+      method: 'PUT'
+    }).then((res) => {
+      this.GetData();
+      document.getElementById('changeDescriptionInput').value = "";
+      this.setState({
+        editWorkId: ""
+      })
+      document.getElementById('change-work-desciption-field').style.display = 'none';
+    })
+    event.preventDefault();
+  }
+
+  CancelUpdate(event) {
+    document.getElementById('changeDescriptionInput').value = "";
+    this.setState({
+      editWorkId: ""
+    })
+    document.getElementById('change-work-desciption-field').style.display = 'none';
+    event.preventDefault();
   }
 
   DescriptionChangeEvent = (event) => {
@@ -113,11 +154,25 @@ class App extends Component {
                   id={value._id}
                   key={value._id}
                   deleteWork={this.DeleteWork}
+                  editWork={this.EditWork}
                   checkDone={this.CheckDone}
                 ></ListRow>
               )
             })
           }</div>
+        </div>
+        <br></br>
+        <div id="change-work-desciption-field" style={{ display: 'none' }}>
+          <span>EDIT</span>
+          <form id="change-work-desciption-form">
+            <input className="form-control" id="changeDescriptionInput"></input>
+            <button className="btn btn-primary" type="submit" onClick={(e) => this.UpdateWork(e)}>
+              <i className="fa fa-floppy-o" aria-hidden="true"></i>
+            </button>
+            <button className="btn btn-danger" type="submit" onClick={this.CancelUpdate.bind(this)}>
+              <i className="fa fa-times-circle" aria-hidden="true"></i>
+            </button>
+          </form>
         </div>
       </div>
     );

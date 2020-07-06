@@ -1,39 +1,59 @@
-.cont{
+.cont {
   padding-top: 30px;
   text-align: center;
   width: 500px;
   display: inline-block;
 }
 
-#root{
+#root {
   text-align: center;
 }
 
-hr{
+hr {
   margin: 5px 0px;
 }
 
-input.form-control{
+input.form-control {
   width: 349px;
   margin-right: 10px;
   height: 25px;
   display: inline-block;
 }
 
-.add-work-field{
+.add-work-field {
   width: 500px;
 }
 
-.add-work-field button{
+.add-work-field button {
   width: 140px;
   padding: 0;
   height: 25px;
 }
 
-.list-work-field{
+.list-work-field {
   min-height: 300px;
   width: 500px;
   border: 1px solid #b9b9b9;
   border-radius: 3px;
 }
 
+#change-work-desciption-field {
+  width: 500px;
+  border: 1px solid #b9b9b9;
+  border-radius: 3px;
+}
+
+#change-work-desciption-form > button {
+  height: 25px;
+  padding: 0;
+  width: 30px;
+  margin-left: 6px;
+}
+
+#change-work-desciption-form {
+  margin-bottom: 10px;
+}
+
+#changeDescriptionInput{
+  width: 380px;
+}
