@@ -33,11 +33,12 @@ class ListRow extends Component {
     }
 
     render() {
+        var renderFormat = (this.state.isdone ? (<del>{this.state.des}</del>) : (this.state.des));
         const ListRowField = (
             <div className="work-row">
                 &nbsp;&nbsp;
                 <input type="checkbox" checked={this.state.isdone} onChange={this.CheckDoneButton.bind(this, this.state.id)}></input>
-                &nbsp; {this.state.des}
+                &nbsp; {renderFormat}
                 <button type="button" className="btn btn-primary" onClick={this.EditWork.bind(this, this.state.id)}>
                     <i className="fa fa-pencil" aria-hidden="true"></i>
                 </button>

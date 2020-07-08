@@ -64,7 +64,6 @@ class App extends Component {
       editWorkId: ""
     })
     document.getElementById('change-work-desciption-field').style.display = 'none';
-    //refs
     event.preventDefault();
   }
 
