@@ -31,10 +31,12 @@ input.form-control {
 }
 
 .list-work-field {
-  min-height: 300px;
+  height: 420px;
   width: 500px;
   border: 1px solid #b9b9b9;
   border-radius: 3px;
+  max-height: 500px;
+  overflow-y: auto;
 }
 
 #change-work-desciption-field {
@@ -54,6 +56,6 @@ input.form-control {
   margin-bottom: 10px;
 }
 
-#changeDescriptionInput{
+#changeDescriptionInput {
   width: 380px;
 }

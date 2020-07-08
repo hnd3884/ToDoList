@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
-import ListRow from "./ListRow/ListRow";
-import { GetWorks, CheckDone, DeleteWork, GetWorkById, ChangeDescription } from './Api/todoApi'
+import ListRow from "./Components/item/ListRow";
+import { GetWorks, CheckDone, DeleteWork, GetWorkById, ChangeDescription, AddWork } from './Api/todoApi'
 
 class App extends Component {
   constructor(props) {
@@ -17,7 +17,7 @@ class App extends Component {
   CheckDone = (id, isdone) => {
     CheckDone(id, isdone).then((res) => {
       this.GetData();
-    });
+    }).catch(err => console.log(err));
   }
 
   GetData() {
@@ -25,20 +25,20 @@ class App extends Component {
       this.setState({
         list: res.data
       })
-    });
+    }).catch(err => console.log(err));
   }
 
   DeleteWork = (id) => {
     DeleteWork(id).then(res => {
       this.GetData();
-    })
+    }).catch(err => console.log(err));
   }
 
   EditWork = (id) => {
     document.getElementById('change-work-desciption-field').style.display = 'block';
     GetWorkById(id).then((res) => {
       document.getElementById('changeDescriptionInput').value = res.description;
-    })
+    }).catch(err => console.log(err));
 
     this.setState({
       editWorkId: id
@@ -47,14 +47,14 @@ class App extends Component {
 
   UpdateWork(event) {
     let newDescription = document.getElementById('changeDescriptionInput').value;
-    ChangeDescription(this.state.editWorkId,newDescription).then((res) => {
+    ChangeDescription(this.state.editWorkId, newDescription).then((res) => {
       this.GetData();
       document.getElementById('changeDescriptionInput').value = "";
       this.setState({
         editWorkId: ""
       })
       document.getElementById('change-work-desciption-field').style.display = 'none';
-    })
+    }).catch(err => console.log(err));
     event.preventDefault();
   }
 
@@ -64,6 +64,7 @@ class App extends Component {
       editWorkId: ""
     })
     document.getElementById('change-work-desciption-field').style.display = 'none';
+    //refs
     event.preventDefault();
   }
 
@@ -74,19 +75,9 @@ class App extends Component {
   AddWorkEvent = (event) => {
     var this_App = this;
     if (this.state.description !== "") {
-      fetch('http://localhost:8081/add-work', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          isdone: false,
-          description: this.state.description
-        })
-      }).then(function (response) {
+      AddWork(this.state.description).then(function (response) {
         this_App.GetData();
-      });
+      }).catch(err => console.log(err));
 
       document.getElementById("add-work-form").reset();
     } else {
@@ -129,6 +120,7 @@ class App extends Component {
           <div className="list-work">{
             this.state.list.map((value, index) => {
               return (
+                //item list
                 <ListRow
                   isdone={value.isdone}
                   des={value.description}
