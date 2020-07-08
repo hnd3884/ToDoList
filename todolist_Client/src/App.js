@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
 import ListRow from "./Components/item/ListRow";
-import { GetWorks, CheckDone, DeleteWork, GetWorkById, ChangeDescription, AddWork } from './Api/todoApi'
+import { GetWorks, DeleteWork, GetWorkById, UpdateWork, AddWork } from './Api/todoApi'
 
 class App extends Component {
   constructor(props) {
@@ -15,7 +15,7 @@ class App extends Component {
   }
 
   CheckDone = (id, isdone) => {
-    CheckDone(id, isdone).then((res) => {
+    UpdateWork(id, { isdone: isdone }).then((res) => {
       this.GetData();
     }).catch(err => console.log(err));
   }
@@ -47,7 +47,7 @@ class App extends Component {
 
   UpdateWork(event) {
     let newDescription = document.getElementById('changeDescriptionInput').value;
-    ChangeDescription(this.state.editWorkId, newDescription).then((res) => {
+    UpdateWork(this.state.editWorkId, { description: newDescription }).then((res) => {
       this.GetData();
       document.getElementById('changeDescriptionInput').value = "";
       this.setState({

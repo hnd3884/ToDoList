@@ -1,14 +1,8 @@
-import {END_POINT} from '../config'
+import { END_POINT } from '../config'
 
 export async function GetWorks() {
     return await fetch(`${END_POINT}get-works`)
         .then(result => result.json())
-}
-
-export async function CheckDone(id, isdone) {
-    return await fetch(`${END_POINT}check-work?id=${id}&isdone=${isdone}`, {
-        method: 'PUT'
-    })
 }
 
 export async function DeleteWork(id) {
@@ -29,9 +23,14 @@ export async function GetWorkById(id) {
         .then(result => result.json())
 }
 
-export async function ChangeDescription(id, newDescription) {
-    return await fetch(`${END_POINT}update-work?id=${id}&newDescription=${newDescription}`, {
-        method: 'PUT'
+export async function UpdateWork(id, newValue) {
+    return await fetch(`${END_POINT}update-work?id=${id}`, {
+        method: 'PUT',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newValue)
     })
 }
 
