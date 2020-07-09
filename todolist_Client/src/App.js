@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./App.css";
-import ListRow from "./Components/item/ListRow";
+import WorkRow from "./Components/WorkRowItem/WorkRow";
 import { GetWorks, DeleteWork, GetWorkById, UpdateWork, AddWork } from './Api/todoApi'
 
 class App extends Component {
@@ -14,12 +14,14 @@ class App extends Component {
     this.GetData();
   }
 
+  // Check done work handler
   CheckDone = (id, isdone) => {
     UpdateWork(id, { isdone: isdone }).then((res) => {
       this.GetData();
     }).catch(err => console.log(err));
   }
 
+  // Get works
   GetData() {
     GetWorks().then((res) => {
       this.setState({
@@ -28,12 +30,14 @@ class App extends Component {
     }).catch(err => console.log(err));
   }
 
+  // Delete work by id
   DeleteWork = (id) => {
     DeleteWork(id).then(res => {
       this.GetData();
     }).catch(err => console.log(err));
   }
 
+  // Get work by detail generate edit form
   EditWork = (id) => {
     document.getElementById('change-work-desciption-field').style.display = 'block';
     GetWorkById(id).then((res) => {
@@ -45,6 +49,7 @@ class App extends Component {
     })
   }
 
+  // Update work
   UpdateWork(event) {
     let newDescription = document.getElementById('changeDescriptionInput').value;
     UpdateWork(this.state.editWorkId, { description: newDescription }).then((res) => {
@@ -58,6 +63,7 @@ class App extends Component {
     event.preventDefault();
   }
 
+  // Close edit form
   CancelUpdate(event) {
     document.getElementById('changeDescriptionInput').value = "";
     this.setState({
@@ -67,10 +73,12 @@ class App extends Component {
     event.preventDefault();
   }
 
+  // New work description change handler
   DescriptionChangeEvent = (event) => {
     this.setState({ description: event.target.value.toString() });
   };
 
+  // Add work
   AddWorkEvent = (event) => {
     var this_App = this;
     if (this.state.description !== "") {
@@ -119,8 +127,8 @@ class App extends Component {
           <div className="list-work">{
             this.state.list.map((value, index) => {
               return (
-                //item list
-                <ListRow
+                //list row
+                <WorkRow
                   isdone={value.isdone}
                   des={value.description}
                   id={value._id}
@@ -128,7 +136,7 @@ class App extends Component {
                   deleteWork={this.DeleteWork}
                   editWork={this.EditWork}
                   checkDone={this.CheckDone}
-                ></ListRow>
+                ></WorkRow>
               )
             })
           }</div>
