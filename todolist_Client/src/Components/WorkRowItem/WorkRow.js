@@ -28,7 +28,7 @@ class WorkRow extends Component {
         this.props.deleteWork(id);
     }
 
-    EditWork(id){
+    EditWork(id) {
         this.props.editWork(id);
     }
 
@@ -37,8 +37,10 @@ class WorkRow extends Component {
         const ListRowField = (
             <div className="work-row">
                 &nbsp;&nbsp;
-                <input type="checkbox" checked={this.state.isdone} onChange={this.CheckDoneButton.bind(this, this.state.id)}></input>
-                &nbsp; {renderFormat}
+                <label>
+                    <input type="checkbox" checked={this.state.isdone} onChange={this.CheckDoneButton.bind(this, this.state.id)}></input>
+                    &nbsp; {renderFormat}
+                </label>
                 <button type="button" className="btn btn-primary" onClick={this.EditWork.bind(this, this.state.id)}>
                     <i className="fa fa-pencil" aria-hidden="true"></i>
                 </button>
