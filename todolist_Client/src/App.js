@@ -41,7 +41,7 @@ class App extends Component {
   EditWork = (id) => {
     document.getElementById('change-work-desciption-field').style.display = 'block';
     GetWorkById(id).then((res) => {
-      document.getElementById('changeDescriptionInput').value = res.description;
+      document.getElementById('changeDescriptionInput').value = res.data.description;
     }).catch(err => console.log(err));
 
     this.setState({

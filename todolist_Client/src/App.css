@@ -10,7 +10,7 @@
 }
 
 hr {
-  margin: 5px 0px;
+  margin: 0;
 }
 
 input.form-control {
@@ -31,11 +31,15 @@ input.form-control {
 }
 
 .list-work-field {
-  height: 420px;
+  height: 450px;
   width: 500px;
   border: 1px solid #b9b9b9;
   border-radius: 3px;
   max-height: 500px;
+}
+
+.list-work{
+  height: 425px;
   overflow-y: auto;
 }
 

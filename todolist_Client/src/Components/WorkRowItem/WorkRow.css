@@ -1,5 +1,6 @@
 .work-row{
     text-align: left;
+    padding-top: 6px;
 }
 
 .work-row>button.btn-danger{

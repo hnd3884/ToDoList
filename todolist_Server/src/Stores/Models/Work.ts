@@ -1,13 +1,14 @@
-import mongoose from '../../DbConnection/MongoConnection'
+import mongoose from '../../DbConnection/MongoConnection';
 
-var workSchema = new mongoose.Schema({
-  isdone: Boolean,
+const workSchema = new mongoose.Schema({
+  isdone: {
+    type: Boolean,
+    required: true
+  },
   description: String
-},{
-  versionKey: false
-});
+})
 
-export var Work = mongoose.model('Works', workSchema);
+export const Work = mongoose.model('Works', workSchema);
 
 
 
