@@ -1,11 +1,14 @@
+import { Request, Response } from "express";
+import AbstractStore from "Stores/AbstractStore";
+
 export default class AbstractController {
-    private _store: any;
+    private _store: AbstractStore;
     constructor(store) {
         this._store = store;
     }
 
-    // Get all works
-    async GetData(req, res) {
+    // Get data API handler
+    async GetData(req: Request, res: Response) {
         try {
             await this._store.GetData().then(items => {
                 res.send({
@@ -23,8 +26,8 @@ export default class AbstractController {
         }
     }
 
-    // Add new work
-    async AddData(req, res) {
+    // Add new data API handler
+    async AddData(req: Request, res: Response) {
         try {
             let work = req.body;
             await this._store.AddData(work).then(value => {
@@ -41,8 +44,8 @@ export default class AbstractController {
         }
     }
 
-    // Delete work by id
-    async DeleteData(req, res) {
+    // Delete data by id
+    async DeleteData(req: Request, res: Response) {
         try {
             let id = req.body._id;
             await this._store.DeleteDataById(id).then(value => {
@@ -59,12 +62,11 @@ export default class AbstractController {
         }
     }
 
-    // Get work by id
-    async GetDataById(req, res) {
+    // Get data by id API handler
+    async GetDataById(req: Request, res: Response) {
         try {
             let id = req.query.id;
             await this._store.GetDataById(id).then(item => {
-                //res.send(item);
                 res.send({
                     success: true,
                     data: item
@@ -80,8 +82,8 @@ export default class AbstractController {
         }
     }
 
-    // Update work
-    async UpdateData(req, res) {
+    // Update data API handler
+    async UpdateData(req: Request, res: Response) {
         try {
             let id = req.query.id;
             let newValue = req.body;

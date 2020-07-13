@@ -1,9 +1,10 @@
 import { Application } from "express";
 import {WorkControllerInstance} from "./Controllers/WorkController";
+import AbstractController from "Controllers/AbstractController";
 
 export default class Router {
     private _app: Application;
-    private _workController: any;
+    private _workController: AbstractController;
     constructor(app: Application) {
         this._app = app;
         this._workController = WorkControllerInstance;

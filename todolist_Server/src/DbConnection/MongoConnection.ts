@@ -4,9 +4,10 @@ import * as Config from '../Config'
 
 mongoose.connect(Config.TODOLIST_MONGO_URI,
     { useNewUrlParser: true, useUnifiedTopology: true },
-    //connect success
     function (err) {
         if (err) throw err;
-    });
+        console.log("connect MongoDB success!");
+    }
+);
 
 export default mongoose;
