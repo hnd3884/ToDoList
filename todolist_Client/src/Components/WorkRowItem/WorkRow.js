@@ -10,7 +10,7 @@ class WorkRow extends Component {
             isdone: props.isdone
         }
     }
-
+ 
     UNSAFE_componentWillReceiveProps(newProps) {
         if (this.state.isdone !== newProps.isdone) {
             this.setState({ isdone: newProps.isdone });
